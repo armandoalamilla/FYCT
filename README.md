@@ -1,2 +1,2 @@
 # FYCT
-Proyecto de web
+Proyecto del laboratorio de web
