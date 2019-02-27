@@ -40,15 +40,17 @@
   </div>
 
 <div class="row">
-    <form class="col s12">
+    <form class="col s12" id="formaRegistro">
       <div class="row">
-        <div class="input-field col s6">
+        <div class="input-field col s6" id="divNombre">
           <i class="material-icons prefix">account_circle</i>
-          <input  id="first_name" type="text" class="validate">
-          <label for="first_name">Nombre</label>
+          <input  id="first_name" type="text" class="validate"  required="" aria-required="true">
+          <label  for="first_name">Nombre</label>
+          <span class="helper-text" data-error="ingresa tu nombre"></span>
+        
         </div>
         <div class="input-field col s6">
-          <input id="last_name" type="text" class="validate">
+          <input id="last_name" type="text" class="validate" required="" aria-required="true">
           <label for="last_name">Apellidos</label>
         </div>
       </div>
@@ -65,7 +67,7 @@
         <div class="input-field col s12">
           <i class="material-icons prefix">lock_outline</i>
           <input id="confirmPassword" type="password" class="validate">
-          <label for="password">Confiirma contraseña</label>
+          <label for="password">Confirma contraseña</label>
         </div>
       </div>
 
@@ -80,8 +82,8 @@
 
       <form action="#">
     <div class="file-field input-field">
-      <div class="btn">
-        <span>  <i class="material-icons prefix">local_see</i> </span>
+      <div class="btn-floating waves-effect waves-light">
+       <i class="material-icons center">local_see</i> 
         <input type="file">
       </div>
       <div class="file-path-wrapper">
@@ -90,18 +92,42 @@
     </div>
   </form>
 
-   <button id="btnRegistro" class="btn waves-effect waves-light" type="submit" name="action">Submit
+   <button id="btnRegistro"  data-target="" class="waves-effect waves-light btn modal-trigger" href="#modal1" type="submit" name="action">Enviar información
     <i class="material-icons right">send</i>
   </button>
       
 
     </form>
-  </div>  
-
-
-
 
   
+
+  <!-- Modal Structure -->
+  <div id="modal_nombre" class="modal">
+    <div class="modal-content">
+      <h4>Error</h4>
+      <p>Favor de ingresar tu nombre</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
+    </div>
+  </div>
+
+
+
+
+  <div id="modal_apellido" class="modal">
+    <div class="modal-content">
+      <h4>Error</h4>
+      <p>Favor de ingresar tu apellido</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
+    </div>
+  </div>
+
+  
+
+
 
 
   
@@ -118,9 +144,10 @@
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
+  <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
   <script src="js/RegistroJS.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
 
   </body>
 </html>
