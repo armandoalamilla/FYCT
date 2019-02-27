@@ -52,22 +52,25 @@
         <div class="input-field col s6">
           <input id="last_name" type="text" class="validate" required="" aria-required="true">
           <label for="last_name">Apellidos</label>
+          <span class="helper-text" data-error="ingresa tu apellido"></span>
         </div>
       </div>
      
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">lock_outline</i>
-          <input id="password" type="password" class="validate">
+          <input id="password" type="password" class="validate" required="" aria-required="true">
           <label for="password">Contraseña </label>
+          <span class="helper-text" data-error="ingresa tu contraseña"></span>
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s12">
           <i class="material-icons prefix">lock_outline</i>
-          <input id="confirmPassword" type="password" class="validate">
+          <input id="confirmPassword" type="password" class="validate" required="" aria-required="true">
           <label for="password">Confirma contraseña</label>
+          <span class="helper-text" data-error="ingresa tu contraseña"></span>
         </div>
       </div>
 
@@ -121,6 +124,36 @@
       <p>Favor de ingresar tu apellido</p>
     </div>
     <div class="modal-footer">
+      <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
+    </div>
+  </div>
+
+   <div id="modal_contrasena" class="modal">
+    <div class="modal-content">
+      <h4>Error</h4>
+      <p>Favor de ingresar tu contraseña</p>
+  </div>
+  <div class="modal-footer">
+      <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
+    </div>
+  </div>
+
+  <div id="modal_contrasenaConfirma" class="modal">
+    <div class="modal-content">
+      <h4>Error</h4>
+      <p>Las contraseñas no coinciden</p>
+  </div>
+  <div class="modal-footer">
+      <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
+    </div>
+  </div>
+
+  <div id="modal_email" class="modal">
+    <div class="modal-content">
+      <h4>Error</h4>
+      <p>Favor de ingresar tu email</p>
+  </div>
+  <div class="modal-footer">
       <a href="#!" class="modal-close waves-light btn-flat">Aceptar</a>
     </div>
   </div>
