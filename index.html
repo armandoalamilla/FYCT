@@ -18,7 +18,7 @@
         <li><a href="#">Home</a></li>
         <li><a href="tienda.html">Store</a></li>
         <li><a href="iniciar sesion.html">Login</a></li>
-        <li><a href="#">Carrito</a></li>
+        <li> <a class='dropdown-trigger' href='#' data-target='carrito' data-beloworigin="true">Carrito <i class="material-icons secondary-content">arrow_drop_down</i></a></li>
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
@@ -174,11 +174,32 @@
     </div>
   </footer>
 
+  <!-- Dropdown Structure -->
+  <ul id='carrito' class='dropdown-content collection'>
+    <li class="collection-item avatar">
+      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt=""  class="circle">
+      <span class="title">Zapato1</span>
+       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
+   </li>
+   <li class="collection-item avatar">
+      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
+      <span class="title">Zapato2</span>
+       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
+   </li>
+   <li class="collection-item avatar">
+      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
+      <span class="title">Zapato3</span>
+       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
+   </li>
+    <li class="divider"></li>
+    <li><a href="carrito.html"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
+  </ul>
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+  <script src="js/index.js"></script>
 
   </body>
 </html>
