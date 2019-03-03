@@ -1,0 +1,10 @@
+USE fyctdb;
+
+INSERT INTO usuario
+VALUES ('a.salgado.gaspar@gmail.com', 'Gaspar', 'Salgado', 
+		 'Alejandro Alfredo', '8331551748', 'micontrasenia',
+	 'Mexico', 'Nuevo Leon', 'Alguna colonia', 'Alguna calle',
+       'Algun numero');
+
+INSERT INTO usuario(Correo,Contrasena)
+VALUES ('random@hotmail.com', '12345');
