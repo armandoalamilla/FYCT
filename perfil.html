@@ -10,6 +10,7 @@
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
+
 <body>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
@@ -33,113 +34,69 @@
     </div>
   </nav>
 
-  
+<br>
+<br>
+<br>
+
+<div class="container">
+	<div class="row">
+		<div class="col s12 offset-s1"><span class="flow-text"><h3>Welcome Back, <i>Username</i> !</h5></span></div>
+		<div class="col s6 offset-s2"><h5>Historial de Compras</h5></div>
+		<div class="col s8 offset-s2"><p>Ultimos 6 meses...</p></div>
+		<div class="col s1 offset-s2"><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="150"></div>
+		<div class="col s1 offset-s1"><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="150"></div>
+		<div class="col s1 offset-s1"><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="150"></div>
+		<div class="col s1 offset-s1"><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="150"></div>
+		<br><br>
+
+		<div class="col s12">
+			<div class="col s6 offset-s2"><h5>Actualizar Datos de Envio:</h5></div>
+			<div class="row">
+				<div class="input-field col s8 offset-s2"> 
+					
+					<input type="text" name="Direccion" placeholder="Agregar nueva direccion">
+						(Direccion actual: 3086 Emma Street, Lubbock, Texas, 79041) 
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s4 offset-s2">
+					<select class="pais">
+						<option value="" disabled selected>Escoge una opcion..</option>
+						<option value="MX">Mexico</option>
+						<option value="US">Estados Unidos</option>
+					</select>
+					<label>Pais</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s4 offset-s2">
+					<select class="estado">
+						<option value="" disabled selected>Escoge una opcion..</option>
+						<option value="NL">Nuevo Leon</option>
+						<option value="CDM">Ciudad de Mexico</option>
+						<option value="GD">Guadalajara</option>
+					</select>
+					<label>Estado</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s4 offset-s2">
+					<select class="ciudad">
+						<option value="" disabled selected>Escoge una opcion..</option>
+						<option value="MTY">Monterrey</option>
+						<option value="GDP">Guadalupe</option>
+						<option value="SC">Santa Catarina</option>
+					</select>
+					<label>Ciudad</label>
+				</div>
+			</div>
+		</div>
+		<div class="col s2 offset-s2"><a class="waves-effect waves-light btn">Guardar Cambios</a></div>
+	</div>
+</div>
 
 
-
-
-  
-
-  <div class="container">
-    <div class="section">
-      <br>
-
-     
-     <style>
-    body {
-      display: flex;
-      min-height: 100vh;
-      flex-direction: column;
-    }
-
-    main {
-      flex: 1 0 auto;
-    }
-
-    body {
-      background: #fff;
-    }
-
-    .input-field input[type=date]:focus + label,
-    .input-field input[type=text]:focus + label,
-    .input-field input[type=email]:focus + label,
-    .input-field input[type=password]:focus + label {
-      color: #e91e63;
-    }
-
-    .input-field input[type=date]:focus,
-    .input-field input[type=text]:focus,
-    .input-field input[type=email]:focus,
-    .input-field input[type=password]:focus {
-      border-bottom: 2px solid #e91e63;
-      box-shadow: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="section"></div>
-  <main>
-    <center>
-      
-      <div class="section"></div>
-
-      <h5 class="indigo-text">Hola, ingresa en tu cuenta</h5>
-      <div class="section"></div>
-
-      <div class="container">
-        <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
-
-          <form class="col s12" method="post">
-            <div class='row'>
-              <div class='col s12'>
-              </div>
-            </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='email' name='email' id='email' />
-                <label for='email'>Ingresa tu correo</label>
-              </div>
-            </div>
-
-            <div class='row'>
-              <div class='input-field col s12'>
-                <input class='validate' type='password' name='password' id='password' />
-                <label for='password'>Ingresa tu contraseña</label>
-              </div>
-              <label style='float: right;'>
-                <a class='pink-text' href='#!'><b>¿ Olvidaste tu contraseña?</b></a>
-              </label>
-            </div>
-
-            <br />
-            <center>
-              <div class='row'>
-                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Iniciar sesión</button>
-              </div>
-            </center>
-          </form>
-        </div>
-      </div>
-      <a href="registro.html">Crea tu cuenta</a>
-    </center>
-
-    <div class="section"></div>
-    <div class="section"></div>
-  </main>
-
- 
-
- 
-
-    </div>
-  </div>
-
-
-  
-
-  <footer class="page-footer teal">
+<footer class="page-footer teal">
     
     <div class="footer-copyright">
       <div class="container">
@@ -148,7 +105,7 @@
     </div>
   </footer>
 
-  <!-- Dropdown Structure -->
+<!-- Dropdown Structure -->
   <ul id='carrito' class='dropdown-content collection'>
     <li class="collection-item avatar">
       <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt=""  class="circle">
@@ -171,9 +128,10 @@
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="js/materialize.js"></script>
+  <script src="js/materialize.js"></script> 
   <script src="js/init.js"></script>
-  <script src="js/iniciarSesion.js"></script>
+  <script src="js/perfil.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
 
   </body>
 </html>
