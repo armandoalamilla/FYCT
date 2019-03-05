@@ -2,7 +2,7 @@
 Instrucciones de instalación
 
 PROGRAMAS REQUERIDOS:
-- Node JS https://nodejs.org/es/download/
+- Node JS https://nodejs.org/es/download/ 8.5 - 9.x
 - Mysql workbench https://dev.mysql.com/downloads/workbench/
 - Express: En CMD poner npm install express
 
