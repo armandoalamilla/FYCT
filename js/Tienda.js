@@ -1,6 +1,7 @@
 //Trigger del DropDown
 $('.dropdown-trigger').dropdown({coverTrigger: false, alignment: 'right', constrainWidth: false });
 
+//Trigger al pasar el mouse
 $(function() {
     $('.card').hover(
         function() {
