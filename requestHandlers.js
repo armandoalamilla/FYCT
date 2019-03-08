@@ -104,6 +104,42 @@ function shopPage(response, postData, cookieJar) {
   });
 }
 
+function cartPage(response, postData, cookieJar) {
+  console.log("Request handler 'cartPage' was called.");
+  fs.readFile('./cart.html', null, function (error,data){
+
+    if (error){
+      response.writeHead( 302, { "Location": "./public/error.html" } );
+      //response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+}
+
+function profilePage(response, postData, cookieJar) {
+  console.log("Request handler 'cartPage' was called.");
+  fs.readFile('./perfil.html', null, function (error,data){
+
+    if (error){
+      response.writeHead( 302, { "Location": "./public/error.html" } );
+      //response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+}
+
+
+
 
 function registerPage(response, postData, cookieJar) {
   console.log("Request handler 'registerPage' was called.");
@@ -125,7 +161,7 @@ function registerPage(response, postData, cookieJar) {
 
 
 
-function loginAction(response,postData, pathname){
+function loginAction(response,postData, cookieJar){
 	console.log("Request handler 'loginAction' was called.");
 
 	console.log(querystring.parse(postData).email);
@@ -139,7 +175,16 @@ function loginAction(response,postData, pathname){
      if(err) throw err;
 
       if (result.length >= 1)
-         console.log(result[0].Nombres); 
+      {
+         console.log(result[0].Nombres);
+
+         var nameString = "" + result[0].Nombres + " " +  result[0].ApellidoP + " " + result[0].ApellidoM;
+
+          var someDate = new Date();
+          someDate.setTime(someDate.getTime() + (30*60*1000) ) ;
+          cookieJar.set( "name", nameString , { httpOnly: false, expires: someDate} );
+
+      }
 
       var namesArray = [];
       for (var i = 0;i < result.length; i++) {
@@ -158,6 +203,40 @@ function loginAction(response,postData, pathname){
 
 
 }
+
+
+
+
+function logoutAction(response, postData, cookieJar){
+
+  console.log("Request handler 'logout' was called.");
+
+
+  //Destruye la cookie dandole una fecha de expiracion ya pasada
+  var someDate = new Date();
+  someDate.setTime(someDate.getTime() - 500000 ) ;
+
+  cookieJar.set( "name", "dummy", { httpOnly: false, expires: someDate} );
+
+  fs.readFile('./home.html', null, function (error,data){
+
+    if (error){
+      response.writeHead( 302, { "Location": "./public/error.html" } );
+      //response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+
+
+}
+
+
+
 
 
 
@@ -236,6 +315,106 @@ function registerAction(response,postData, pathname){
 
 }
 
+
+
+function retrieveImagesInfo(response,postData, pathname){ 
+  
+  console.log("Request handler 'retrieveImagesInfo' was called.");
+
+  pool.query("SELECT * FROM producto, productoimagen WHERE producto.IDProducto = productoimagen.IDProducto AND ImgPrincipal = true AND Ubicacion IS NOT NULL;" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+
+              var imageInfoArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  imageInfoArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio,
+                                        Descripcion: result[i].Descripcion, Ubicacion: result[i].Ubicacion});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Images information retrieved.',
+                        ImagesInformation: imageInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var imageInfoArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        ImagesInformation: imageInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+
+
+  });
+
+
+}
+
+
+
+
+
+function mostSoldProducts(response,postData, pathname){
+
+  console.log("Request handler 'mostSoldProducts' was called.");
+
+  pool.query("select producto.IDProducto, producto.Nombre, producto.Precio, sum(ordendetalle.cantidad) as Ventas, producto.Descripcion, productoimagen.Ubicacion from ordendetalle, producto, productoimagen where ordendetalle.IDProducto = producto.IDProducto AND productoimagen.IDProducto = producto.IDProducto AND productoimagen.ImgPrincipal = true group by ordendetalle.IDProducto order by ventas desc limit 3;" , function(err, result){
+        
+        if(err) throw err;
+
+
+         if (result.length >= 1)
+          {
+
+              var imageInfoArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  imageInfoArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio,
+                                        Ventas: result[i].Ventas, Descripcion: result[i].Descripcion,
+                                        Ubicacion: result[i].Ubicacion});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Images information retrieved.',
+                        ImagesInformation: imageInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var imageInfoArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        ImagesInformation: imageInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+
+
+
+  });
+
+
+}
 
 
 
@@ -338,18 +517,47 @@ function pngContent(response,postData, pathname){
 }
 
 
+function jpgContent(response,postData, pathname){
+  console.log("Request handler 'jpgContent' was called. The file " + pathname + " was requested.");
+
+  //var fullpath = './public' + pathname;
+  var fullpath = '.' + pathname;
+
+  fs.readFile(fullpath, null, function (error,data){
+
+    if (error){
+      console.log("No file found at:" + fullpath);
+      response.writeHead(404);
+      response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "image/jpg"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+}
+
+
+
 //Views de la app web
 exports.homePage = homePage;
 exports.loginPage = loginPage;
 exports.shopPage = shopPage;
 exports.registerPage = registerPage;
-
+exports.cartPage = cartPage;
+exports.profilePage = profilePage
 
 //Acciones o servicios que el cliente solicita manualmente
 exports.loginAction = loginAction;
 exports.registerAction = registerAction;
+exports.retrieveImagesInfo = retrieveImagesInfo;
+exports.mostSoldProducts = mostSoldProducts;
+exports.logoutAction = logoutAction;
 
 //Acciones o servicios que el cliente solicita automaticamente
 exports.cssContent = cssContent;
 exports.jsContent = jsContent;
 exports.pngContent = pngContent;
+exports.jpgContent = jpgContent;

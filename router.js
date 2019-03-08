@@ -29,6 +29,10 @@ function route(handle, pathname, response, postData, cookieJar) {
     //Si el cliente solicita un archivo pdf (como sea que se llame dicho archivo), dicha solicitud se puede atender  
 	}  else if (/^\/[a-zA-Z0-9\/\.\_\-]*.pdf$/.test(pathname.toString())){
 			handle["/pdf"](response,postData, pathname);
+
+	//Si el cliente solicita un archivo jpg (como sea que se llame dicho archivo), dicha solicitud se puede atender
+	} else if (/^\/[a-zA-Z0-9\/\.\_\-]*.jpg$/.test(pathname.toString())){
+			handle["/jpg"](response,postData, pathname);
 	}
 
 	//No se pudo identificar que es lo que el cliente esta tratando de solicitar, por lo cual la solicitud NO se puede atender

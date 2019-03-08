@@ -22,8 +22,9 @@ handle["/"] = requestHandlers.homePage;
 handle["/IniciarSesion"] = requestHandlers.loginPage;
 handle["/Tienda"] = requestHandlers.shopPage;
 handle["/Registro"] = requestHandlers.registerPage;
-
-
+handle["/Carrito"] = requestHandlers.cartPage;	
+handle["/Perfil"] = requestHandlers.profilePage;		
+handle["/CerrarSesion"] = requestHandlers.logoutAction;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,15 +33,18 @@ handle["/Registro"] = requestHandlers.registerPage;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 handle["/LoginAction"] = requestHandlers.loginAction;
-handle["/registerAction"] = requestHandlers.registerAction;
+handle["/RegisterAction"] = requestHandlers.registerAction;
+handle["/ImagesInfo"] = requestHandlers.retrieveImagesInfo;
+handle["/MostSoldProducts"] = requestHandlers.mostSoldProducts;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//Funciones para entregar una variedad de archivos (css,js,png,pdf,etc)  al cliente
+//Funciones para entregar una variedad de archivos (css,js,png,jpg,pdf,etc)  al cliente
 //Nota: Estos son solicitados de manera automatica por el cliente
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 handle["/css"] = requestHandlers.cssContent;
 handle["/js"]= requestHandlers.jsContent;
 handle["/png"]= requestHandlers.pngContent;
+handle["/jpg"]= requestHandlers.jpgContent;
 handle["/pdf"]= requestHandlers.pdfService;
 
 

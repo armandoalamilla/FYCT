@@ -92,7 +92,7 @@ function sendInfo(){
 
 		$.ajax({
 
-				url: "/registerAction",
+				url: "/RegisterAction",
 				cache : false,
 			    type : "POST",
 			    crossDomain: true,
