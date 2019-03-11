@@ -20,7 +20,7 @@
         <li id="storeBtn"><a href="/Tienda">Store</a></li>
         <li id="loginBtn"><a href="/IniciarSesion">Login</a></li>
         <li id="registerBtn"><a href="/Registro">Register</a></li>
-        <li id="cartBtn"><a href="/Carrito">Cart</a></li>
+        <li id="cartBtn"><a class='dropdown-trigger' href='#' data-target='carritoDrop'>Cart</a></li>
 
       </ul>
 
@@ -149,6 +149,15 @@
       </div>
     </div>
   </footer>
+
+  <!-- Dropdown Structure -->
+  <ul id='carritoDrop' class='dropdown-content collection'>
+
+  <div id="dropdown_container"></div>
+
+    <li class="divider"></li>
+    <li><a href="/Carrito"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
+  </ul>
 
 
   <!--  Scripts-->
