@@ -23,8 +23,10 @@ handle["/IniciarSesion"] = requestHandlers.loginPage;
 handle["/Tienda"] = requestHandlers.shopPage;
 handle["/Registro"] = requestHandlers.registerPage;
 handle["/Carrito"] = requestHandlers.cartPage;	
+handle["/ProductoDetalles"] = requestHandlers.productDetailsPage;
 handle["/Perfil"] = requestHandlers.profilePage;		
 handle["/CerrarSesion"] = requestHandlers.logoutAction;
+handle["/ShopConfirmation"] = requestHandlers.shopConfirmationPage;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,6 +38,14 @@ handle["/LoginAction"] = requestHandlers.loginAction;
 handle["/RegisterAction"] = requestHandlers.registerAction;
 handle["/ImagesInfo"] = requestHandlers.retrieveImagesInfo;
 handle["/MostSoldProducts"] = requestHandlers.mostSoldProducts;
+handle["/CartAction"] = requestHandlers.cartAction;
+handle["/SelectedProduct"] = requestHandlers.retrieveSelectedProduct;
+handle["/CartActionRemove"] = requestHandlers.cartActionRemove;
+handle["/CartActionAddCant"] = requestHandlers.cartActionAddCant;
+handle["/CartActionSubstractCant"] = requestHandlers.cartActionSubstractCant;
+handle["/CartInsertProduct"] = requestHandlers.cartActionInsert;
+handle["/ShopConfirmationAction"] = requestHandlers.shopConfirmationAction;
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Funciones para entregar una variedad de archivos (css,js,png,jpg,pdf,etc)  al cliente

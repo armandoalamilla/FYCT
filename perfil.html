@@ -21,7 +21,7 @@
         <li id="storeBtn"><a href="/Tienda">Store</a></li>
         <li id="loginBtn"><a href="/IniciarSesion">Login</a></li>
         <li id="registerBtn"><a href="/Registro">Register</a></li>
-        <li id="cartBtn"><a href="/Carrito">Cart</a></li>
+        <li id="cartBtn"><a class='dropdown-trigger' href='#' data-target='carritoDrop'>Cart</a></li>
 
       </ul>
 
@@ -108,25 +108,14 @@
   </footer>
 
 <!-- Dropdown Structure -->
-  <ul id='carrito' class='dropdown-content collection'>
-    <li class="collection-item avatar">
-      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt=""  class="circle">
-      <span class="title">Zapato1</span>
-       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
-   </li>
-   <li class="collection-item avatar">
-      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
-      <span class="title">Zapato2</span>
-       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
-   </li>
-   <li class="collection-item avatar">
-      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
-      <span class="title">Zapato3</span>
-       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
-   </li>
+  <ul id='carritoDrop' class='dropdown-content collection'>
+
+  <div id="dropdown_container"></div>
+
     <li class="divider"></li>
-    <li><a href="carrito.html"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
+    <li><a href="/Carrito"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
   </ul>
+
 
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -135,6 +124,8 @@
   <script src="js/perfil.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <script src="js/checkLogin.js"></script>
+      <script src="js/cartDropDown.js"></script>
+
 
   </body>
 </html>

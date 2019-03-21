@@ -104,6 +104,27 @@ function shopPage(response, postData, cookieJar) {
   });
 }
 
+
+
+function productDetailsPage(response, postData, cookieJar) {
+  console.log("Request handler 'productDetailsPage' was called.");
+  fs.readFile('./productDetails.html', null, function (error,data){
+
+    if (error){
+      response.writeHead( 302, { "Location": "./public/error.html" } );
+      //response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+}
+
+
+
 function cartPage(response, postData, cookieJar) {
   console.log("Request handler 'cartPage' was called.");
   fs.readFile('./cart.html', null, function (error,data){
@@ -139,11 +160,28 @@ function profilePage(response, postData, cookieJar) {
 }
 
 
-
-
 function registerPage(response, postData, cookieJar) {
   console.log("Request handler 'registerPage' was called.");
   fs.readFile('./register.html', null, function (error,data){
+
+    if (error){
+      response.writeHead( 302, { "Location": "./public/error.html" } );
+      //response.write('File not found!');
+    } else{
+      response.writeHead(200, {"Content-Type": "text/html"});
+      response.write(data);
+    }
+
+    response.end();
+
+  });
+}
+
+
+
+function shopConfirmationPage(response, postData, cookieJar) {
+  console.log("Request handler 'shopConfirmationPage' was called.");
+  fs.readFile('./shopconfirmation.html', null, function (error,data){
 
     if (error){
       response.writeHead( 302, { "Location": "./public/error.html" } );
@@ -183,6 +221,7 @@ function loginAction(response,postData, cookieJar){
           var someDate = new Date();
           someDate.setTime(someDate.getTime() + (30*60*1000) ) ;
           cookieJar.set( "name", nameString , { httpOnly: false, expires: someDate} );
+          cookieJar.set( "email", email , { httpOnly: false, expires: someDate} );
 
       }
 
@@ -193,7 +232,8 @@ function loginAction(response,postData, cookieJar){
 
 
      var json = JSON.stringify({
-                    names: namesArray
+                    names: namesArray,
+                    email : email
                   });
 
      response.writeHead(200, {"Content-Type": "application/json"});
@@ -217,6 +257,7 @@ function logoutAction(response, postData, cookieJar){
   someDate.setTime(someDate.getTime() - 500000 ) ;
 
   cookieJar.set( "name", "dummy", { httpOnly: false, expires: someDate} );
+  cookieJar.set( "email", "dummy", { httpOnly: false, expires: someDate} );
 
   fs.readFile('./home.html', null, function (error,data){
 
@@ -235,9 +276,325 @@ function logoutAction(response, postData, cookieJar){
 
 }
 
+//Acciones del Carrito
+function cartAction(response,postData, cookieJar){
+  console.log("Request handler 'cartAction' was called.");
+  console.log(querystring.parse(postData).email);
+
+  var email = querystring.parse(postData).email;
 
 
 
+    
+    pool.query("SELECT * FROM producto,carritodetalle,productoimagen WHERE carritodetalle.Correo = '"+email+"' AND productoimagen.ImgPrincipal = 1 AND carritodetalle.IDProducto = producto.IDProducto AND productoimagen.IDProducto = carritodetalle.IDProducto;" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+              var cartDetailArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  cartDetailArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio, Descripcion: result[i].Descripcion, Correo: result[i].Correo, Cantidad: result[i].Cantidad, Ubicacion: result[i].Ubicacion});
+              }
+
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Cart information retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var cartDetailArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+  });
+}
+
+
+
+function cartActionRemove(response,postData, cookieJar){
+  console.log("Request handler 'cartAction' was called.");
+
+  console.log(querystring.parse(postData).IDProducto);
+
+  var IDProducto = querystring.parse(postData).IDProducto;
+  var email = querystring.parse(postData).email;
+
+
+    
+    pool.query("DELETE FROM carritodetalle WHERE carritodetalle.IDProducto = "+IDProducto+" AND carritodetalle.Correo = '"+email+"';" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+              var cartDetailArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  cartDetailArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio, Descripcion: result[i].Descripcion, Correo: result[i].Correo, Cantidad: result[i].Cantidad});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Cart information retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var cartDetailArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+  });
+}
+
+function cartActionAddCant(response,postData, cookieJar){
+  console.log("Request handler 'cartAction' was called.");
+  console.log("se esta ejecutando cart action -------------------+++++++++++------");
+
+
+  console.log(querystring.parse(postData).IDProducto);
+
+  var IDProducto = querystring.parse(postData).IDProducto;
+  var email = querystring.parse(postData).email;
+  var Cantidad = querystring.parse(postData).Cantidad;
+
+  var newCantidad = parseInt(Cantidad) + 1;
+
+      pool.query("UPDATE carritodetalle,usuario SET Cantidad = "+ newCantidad +" WHERE carritodetalle.Correo = usuario.Correo and carritodetalle.Correo = '"+email+"' and carritodetalle.IDProducto = "+ IDProducto+";" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+              var cartDetailArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  cartDetailArray.push({Cantidad: result[i].Cantidad});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Cart information retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var cartDetailArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved. UPdate Done',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+  });    
+}
+
+function cartActionSubstractCant(response,postData, cookieJar){
+  console.log("Request handler 'cartActionSubstractCant' was called.");
+  console.log("se esta ejecutando cart action -------------------deldeldeldeldel------");
+
+
+  console.log(querystring.parse(postData).IDProducto);
+
+  var IDProducto = querystring.parse(postData).IDProducto;
+  var email = querystring.parse(postData).email;
+  var Cantidad = querystring.parse(postData).Cantidad;
+
+  var newCantidad = parseInt(Cantidad) - 1;
+
+  if(newCantidad <= 0){
+    pool.query("DELETE FROM carritodetalle WHERE carritodetalle.IDProducto = "+IDProducto+" AND carritodetalle.Correo = '"+email+"';");
+    var json = JSON.stringify({
+        success: true,
+        reason: 'Cart information retrieved.',
+        CartInformation: {Deleted: "product deleted"}
+        });
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(json);
+  }else{
+
+      pool.query("UPDATE carritodetalle,usuario SET Cantidad = "+ newCantidad +" WHERE carritodetalle.Correo = usuario.Correo and carritodetalle.Correo = '"+email+"' and carritodetalle.IDProducto = "+ IDProducto+";" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+              var cartDetailArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  cartDetailArray.push({Cantidad: result[i].Cantidad});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Cart information retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var cartDetailArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved. UPdate Done',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+  });}    
+}
+
+
+
+function cartActionInsert(response,postData, cookieJar){
+  console.log("Request handler 'cartActionInsert' was called.");
+
+  console.log(querystring.parse(postData).IDProducto);
+
+  var IDProducto = querystring.parse(postData).IDProducto;
+  var email = querystring.parse(postData).email;
+  var Cantidad = querystring.parse(postData).Cantidad;
+
+  pool.query("select * from carritodetalle where correo = '" + email + "' and idproducto = " + IDProducto + ";" , function(err, result){
+      
+          if(err) throw err;
+
+          console.log("QUERY1 DONE");
+
+          if (result.length >= 1)
+          {
+
+          		pool.query("UPDATE carritodetalle SET cantidad=cantidad+" + Cantidad + " WHERE correo='" + email +"' and idproducto =" + IDProducto + ";", function(err, result){
+
+          				if(err) throw err;
+
+          				var json = JSON.stringify({
+			                        success: true,
+			                        reason: 'Cart product UPDATED.'
+			                      });
+
+
+			             response.writeHead(200, {"Content-Type": "application/json"});
+			             response.end(json);
+			          		
+
+
+          		});
+
+
+
+
+
+          } else {
+
+          		pool.query("INSERT into carritodetalle Values ( '" + email + "', " + IDProducto + ", " +  Cantidad + ");", function(err, result){
+
+          				if(err) throw err;
+
+          				var json = JSON.stringify({
+			                        success: true,
+			                        reason: 'Cart product INSERTED.'
+			                      });
+
+
+			             response.writeHead(200, {"Content-Type": "application/json"});
+			             response.end(json);
+
+          		});
+
+          }
+  });
+
+
+}
+
+
+
+
+
+function shopConfirmationAction(response,postData, cookieJar){
+  console.log("Request handler 'shopConfirmationAction' was called.");
+  console.log(querystring.parse(postData).email);
+
+  var email = querystring.parse(postData).email;
+
+
+
+    
+    pool.query("SELECT * FROM producto,carritodetalle,productoimagen,usuario WHERE usuario.Correo = '"+email+"' AND  carritodetalle.Correo = '"+email+"' AND  productoimagen.ImgPrincipal = 1 AND carritodetalle.IDProducto = producto.IDProducto AND productoimagen.IDProducto = carritodetalle.IDProducto;" , function(err, result){
+      
+          if(err) throw err;
+
+          if (result.length >= 1)
+          {
+              var cartDetailArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  cartDetailArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio, Descripcion: result[i].Descripcion, Correo: result[i].Correo, Cantidad: result[i].Cantidad, Ubicacion: result[i].Ubicacion, Pais: result[i].Pais, Estado: result[i].Estado, Colonia: result[i].Colonia, Calle: result[i].Calle, Numero: result[i].Numero, Telefono: result[i].Telefono});
+                  }
+
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Cart information retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var cartDetailArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        CartInformation: cartDetailArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+  });
+}
 
 
 
@@ -309,10 +666,6 @@ function registerAction(response,postData, pathname){
 
     });
   }
-  
-  
-
-
 }
 
 
@@ -364,9 +717,6 @@ function retrieveImagesInfo(response,postData, pathname){
 }
 
 
-
-
-
 function mostSoldProducts(response,postData, pathname){
 
   console.log("Request handler 'mostSoldProducts' was called.");
@@ -408,6 +758,53 @@ function mostSoldProducts(response,postData, pathname){
              response.end(json);
 
           }
+  });
+}
+
+
+function retrieveSelectedProduct(response,postData, cookieJar){
+
+  console.log("Request handler 'retrieveSelectedProduct' was called.");
+
+  var productID = querystring.parse(postData).productID;
+
+  pool.query("select * from producto, productoimagen where producto.IDProducto = '"+productID+"' AND producto.IDProducto = productoimagen.IDProducto  AND productoimagen.Ubicacion is not null order by ImgPrincipal desc;" , function(err, result){
+
+        if(err) throw err;
+
+
+         if (result.length >= 1)
+          {
+
+              var productInfoArray = [];
+              for (var i = 0;i < result.length; i++) {
+                  productInfoArray.push({IDProducto: result[i].IDProducto, Nombre: result[i].Nombre, Precio: result[i].Precio,
+                                        Descripcion: result[i].Descripcion, Ubicacion: result[i].Ubicacion, Disponibilidad: result[i].Disponibilidad});
+              }
+
+              var json = JSON.stringify({
+                        success: true,
+                        reason: 'Product information retrieved.',
+                        ProductInformation: productInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+          }
+          else
+          {
+             var productInfoArray = [];
+             var json = JSON.stringify({
+                        success: false,
+                        reason: 'Nothing retrieved.',
+                        ProductInformation: productInfoArray
+                      });
+
+             response.writeHead(200, {"Content-Type": "application/json"});
+             response.end(json);
+
+          }
+
 
 
 
@@ -415,8 +812,6 @@ function mostSoldProducts(response,postData, pathname){
 
 
 }
-
-
 
 
 
@@ -547,7 +942,10 @@ exports.loginPage = loginPage;
 exports.shopPage = shopPage;
 exports.registerPage = registerPage;
 exports.cartPage = cartPage;
-exports.profilePage = profilePage
+exports.profilePage = profilePage;
+exports.productDetailsPage = productDetailsPage;
+exports.shopConfirmationPage = shopConfirmationPage
+
 
 //Acciones o servicios que el cliente solicita manualmente
 exports.loginAction = loginAction;
@@ -555,6 +953,14 @@ exports.registerAction = registerAction;
 exports.retrieveImagesInfo = retrieveImagesInfo;
 exports.mostSoldProducts = mostSoldProducts;
 exports.logoutAction = logoutAction;
+exports.cartAction = cartAction;
+exports.retrieveSelectedProduct = retrieveSelectedProduct;
+exports.cartActionRemove = cartActionRemove;
+exports.cartActionAddCant = cartActionAddCant;
+exports.cartActionSubstractCant = cartActionSubstractCant;
+exports.cartActionInsert = cartActionInsert;
+exports.shopConfirmationAction  = shopConfirmationAction;
+
 
 //Acciones o servicios que el cliente solicita automaticamente
 exports.cssContent = cssContent;

@@ -20,7 +20,7 @@
         <li id="storeBtn"><a href="/Tienda">Store</a></li>
         <li id="loginBtn"><a href="/IniciarSesion">Login</a></li>
         <li id="registerBtn"><a href="/Registro">Register</a></li>
-        <li id="cartBtn"><a href="/Carrito">Cart</a></li>
+        <li id="cartBtn"><a class='dropdown-trigger' href='#' data-target='carritoDrop'>Cart</a></li>
 
       </ul>
 
@@ -30,6 +30,7 @@
         <li id="loginBtnMob"><a href="/IniciarSesion">Login</a></li>
         <li id="registerBtnMob"><a href="/Registro">Register</a></li>
         <li id="cartBtnMob"><a href="/Carrito">Cart</a></li>
+
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
@@ -43,46 +44,75 @@
     <h5 class="center-align">Carrito</h5>
 </div>
 <div class="container">
-	<table class="highlight">
-	    <thead>
-	      <tr>
-	      		<th></th>
-	        	<th>Articulo</th>
-	        	<th>Cantidad</th>
-	        	<th>Precio</th>
-	        	<th></th>
+  
+  <table id= "product_container" class="highlight">
+      <thead>
+        <tr>
+            <th></th>
+            <th>Articulo</th>
+            <th>Cantidad</th>
+            <th></th> 
+            <th>Precio</th>
+            <th></th>
 
-	      </tr>
-	    </thead>
+        </tr>
+      </thead>
 
         <tbody>
+          <!-- 
           <tr>
-				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-				<td>Zapato1</td>
-				<td>1</td>
-				<td>$0.87</td>
-				<td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato1</td>
+            <td>1</td>
+            <td>
+              <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
+              <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
+            </td>
+            <td>$0.87</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
           <tr>
-				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-				<td>Zapato2</td>
-				<td>1</td>
-				<td>$3.76</td>
-				<td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato2</td>
+            <td>1</td>
+            <td>
+              <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
+              <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
+            </td>
+            <td>$3.76</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
           <tr>
-				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-				<td>Zapato3</td>
-				<td>1</td>
-				<td>$7.00</td>
-				<td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato3</td>
+            <td>1</td>
+            <td>
+              <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
+              <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
+            </td>
+            <td>$7.00</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
+         <div class="divider"></div>
+         <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td id="total">
+            <h5 class="right-align">Total  $11.63</h5>
+         </td>
+         </tr>
+         CSS  -->
         </tbody>
-	</table>
+        <tfoot class="subtotal">
+          
+        </tfoot>
+  </table>
 </div>
 <br>
 <div class="row">
-	<div class="col s10 offset-s9"><a class="waves-effect waves-light btn-large " style="margin: 30px 0">Comprar</a></div>
+  <div id = "comprar"  class="col s3 offset-s9"><a href="/ShopConfirmation" class="waves-effect waves-light btn-large " style="margin: 30px 0">Comprar</a></div>
 </div>
 
 <footer class="page-footer teal">
@@ -96,24 +126,35 @@
 
 
 <!-- Dropdown Structure -->
-  <ul id='carrito' class='dropdown-content collection'>
-    <li class="collection-item avatar">
-      <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt=""  class="circle">
-      <span class="title">Zapato1</span>
-       <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
-   </li>
-   <li class="collection-item avatar">
+  <ul id='carritoDrop' class='dropdown-content collection'>
+
+  <div id="dropdown_container"></div>
+
+
+   <!-- <li class="collection-item avatar">
+     <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
+     <div class="row"> 
+        <div class="valign-wrapper col s4"><h5>ZapatoTest</h5></div>
+        <div class="col s3"><a><i class="tiny material-icons">expand_less</i></a></div>
+        <div class="col s3"><a><i class="tiny material-icons">expand_more</i></a></div>
+        <div class="col s3"> <a href="#!" class="secondary-content"><i class="material-icons">remove_shopping_cart</i></a></div>
+     </div>
+   </li> -->
+
+  <!--   <li class="collection-item avatar">
       <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
       <span class="title">Zapato2</span>
        <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
    </li>
+
    <li class="collection-item avatar">
       <img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" alt="" class="circle">
       <span class="title">Zapato3</span>
        <a href="#!" class="secondary-content "><i class="material-icons">remove_shopping_cart</i></a>
    </li>
+ -->
     <li class="divider"></li>
-    <li><a href="carrito.html"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
+    <li><a href="/Carrito"><i class="material-icons">shopping_cart</i>Got to cart</a></li>
   </ul>
 
 <!--  Scripts-->
