@@ -5,62 +5,67 @@ $('.dropdown-trigger').dropdown({coverTrigger: false, alignment: 'right', constr
 
 $(document).ready(function() {
 
+	console.log("cartDropDown SCRIPT WAS LOADED");
 
-    //var email = "roberto@mail.com";
-    var email = getCookie("email");
+	//var email = "roberto@mail.com";
+	var email = getCookie("email");
 
-    
-    var jsonToSend = {
-            "email" : email
-    };
+	
+	var jsonToSend = {
+			"email" : email
+	};
 
-    $.ajax({
+	$.ajax({
 
-            url: "/CartAction",
-            cache : false,
-            type : "POST",
-            crossDomain: true,
-            data : jsonToSend,
-            ContentType : "text/plain",
-            dataType : "json",
+			url: "/CartAction",
+			cache : false,
+		    type : "POST",
+		    crossDomain: true,
+			data : jsonToSend,
+			ContentType : "text/plain",
+			dataType : "json",
 
-            error : function(errorMessage, textStatus, errorThrown) {
-                console.log(errorMessage);
-                console.log(textStatus);
-                console.log(errorThrown);
-                alert("error");
-                
-            },
+			error : function(errorMessage, textStatus, errorThrown) {
+		        console.log(errorMessage);
+		        console.log(textStatus);
+		        console.log(errorThrown);
+		        alert("error");
+		        
+			},
 
-            success: function(dataReceived){
+			success: function(dataReceived){
 
-                    console.log("Data that was received from the server:---------------------------------- ");
-                    //console.log("img: " + dataReceived.CartInformation[0].Ubicacion);
-  
-                    for (i = 0; i < dataReceived.CartInformation.length; i++) { 
+					
 
-                        var newDropdownElement = "<li id='" + dataReceived.CartInformation[i].IDProducto + "dropdown' class='collection-item avatar'>" +
-                                                    "<img src="+ dataReceived.CartInformation[i].Ubicacion +" alt='' class='circle'>"+
-                                                     "<div class='row'>"+ 
-                                                        "<div class='valign-wrapper col s4'><h5>"+dataReceived.CartInformation[i].Nombre+"</h5></div>"+
-                                                        "<div id='carrito_menos' class='col s2'><a onclick='aumentaCant("+ dataReceived.CartInformation[i].IDProducto +  ")' href='#!'><i class='tiny material-icons'>expand_less</i></a></div>"+
-                                                        "<div class='valign-wrapper col s1'><h5>"+dataReceived.CartInformation[i].Cantidad+"</h5></div>"+
-                                                        "<div id='carrito_mas'class='col s2'><a onclick='disminuyeCant("+ dataReceived.CartInformation[i].IDProducto + ")' href='#!'><i class='tiny material-icons'>expand_more</i></a></div>"+
-                                                        "<div class='col s2'> <a onclick='remove("+ dataReceived.CartInformation[i].IDProducto + ")' href='#!' class='secondary-content'><i class='material-icons'>remove_shopping_cart</i></a></div>"+
-                                                     "</div>" +
-                                                   "</li>"; 
+					console.log("Data that was received from the server:---------------------------------- ");
+					//console.log("img: " + dataReceived.CartInformation[0].Ubicacion);
+
+					//alert("entro el for cantidad de informacion:" + dataReceived.CartInformation.length);
+					var subtotalGeneral=0;
+					
+					for (i = 0; i < dataReceived.CartInformation.length; i++) { 
+													
+
+            			var newDropdownElement = "<li class='collection-item avatar'>" +
+													"<img src="+ dataReceived.CartInformation[i].Ubicacion +" alt='' class='circle'>"+
+												     "<div class='row'>"+ 
+												        "<div class='valign-wrapper col s4'><h5>"+dataReceived.CartInformation[i].Nombre+"</h5></div>"+
+												        "<div id='carrito_menos' class='col s2'><a onclick=aumentaCant("+ dataReceived.CartInformation[i].IDProducto + "," +  dataReceived.CartInformation[i].Cantidad + ") href='#!'><i class='tiny material-icons'>expand_less</i></a></div>"+
+												        "<div class='valign-wrapper col s1'><h5>"+dataReceived.CartInformation[i].Cantidad+"</h5></div>"+
+												        "<div id='carrito_mas'class='col s2'><a onclick=disminuyeCant("+ dataReceived.CartInformation[i].IDProducto + "," +  dataReceived.CartInformation[i].Cantidad + ") href='#!'><i class='tiny material-icons'>expand_more</i></a></div>"+
+												        "<div class='col s2'> <a onclick=remove("+ dataReceived.CartInformation[i].IDProducto + ") href='#!' class='secondary-content'><i class='material-icons'>remove_shopping_cart</i></a></div>"+
+												     "</div>" +
+												   "</li>";	
 
 
-                        
-                        $("#dropdown_container").append(newDropdownElement);
+						
+						$("#dropdown_container").append(newDropdownElement);
 
-                    }
+					}
 
-                    
+			}
 
-            }
-
-        });
+		});
 
 
 });
@@ -68,143 +73,120 @@ $(document).ready(function() {
 // Ahorita estaré haciendo esto y lo de cantidad 
 function remove(IDProducto){
 
-    var email = getCookie("email");
+	var email = getCookie("email");
+	//alert("Seguro que deseas eliminar este Articulo de tu Carrito de Compra? ID:" + IDProducto + email);
 
-    var jsonToSend = {
-            "IDProducto" : IDProducto,
-            "email" : email
-    };
 
-    $.ajax({
+	
+		var jsonToSend = {
+			"IDProducto" : IDProducto,
+			"email" : email
+	};
 
-            url: "/CartActionRemove",
-            cache : false,
-            type : "POST",
-            crossDomain: true,
-            data : jsonToSend,
-            ContentType : "text/plain", 
-            dataType : "json",
+	$.ajax({
 
-            error : function(errorMessage, textStatus, errorThrown) {
-                console.log(errorMessage);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
+			url: "/CartActionRemove",
+			cache : false,
+		    type : "POST",
+		    crossDomain: true,
+			data : jsonToSend,
+			ContentType : "text/plain",	
+			dataType : "json",
 
-            success: function(dataReceived){
+			error : function(errorMessage, textStatus, errorThrown) {
+		        console.log(errorMessage);
+		        console.log(textStatus);
+		        console.log(errorThrown);
+			},
 
-                        var dropdownItem = document.getElementById(IDProducto + "dropdown");
-                        dropdownItem.parentNode.removeChild(dropdownItem);
-                        
-            }
+			success: function(dataReceived){
 
-        });
+					console.log("Data that was received from the server: ");
+					location.reload();
+					//$("#tr").load(location.href + " #tr");
+
+
+
+					   
+			}
+
+		});
 }
 
+function aumentaCant(IDProducto,Cantidad){
+	var email = getCookie("email");
 
 
-function aumentaCant(IDProducto){
-    var email = getCookie("email");
-
-    var dropdownItem = document.getElementById(IDProducto + "dropdown");
-
-    var Cantidad = parseInt(dropdownItem.childNodes[1].childNodes[2].childNodes[0].innerHTML);
-
-
-    var jsonToSend = {
-            "IDProducto" : IDProducto,
-            "email" : email,
-            "Cantidad" : Cantidad
-    };
+	var jsonToSend = {
+			"IDProducto" : IDProducto,
+			"email" : email,
+			"Cantidad" : Cantidad
+	};
 
 
-    //console.log("Cantidad actual carrito: " + Cantidad);
-    //console.log("Cantidad actual dropdown: " + dropdownItem.childNodes[1].childNodes[2].childNodes[0].innerHTML);
+	//alert("aumentando cantidad jsoooooooooooon");
 
-    $.ajax({
+	$.ajax({
 
-            url: "/CartActionAddCant",
-            cache : false,
-            type : "POST",
-            crossDomain: true,
-            data : jsonToSend,
-            ContentType : "text/plain",
-            dataType : "json",
+			url: "/CartActionAddCant",
+			cache : false,
+		    type : "POST",
+		    crossDomain: true,
+			data : jsonToSend,
+			ContentType : "text/plain",
+			dataType : "json",
 
-            error : function(errorMessage, textStatus, errorThrown) {
-                console.log(errorMessage);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
+			error : function(errorMessage, textStatus, errorThrown) {
+		        console.log(errorMessage);
+		        console.log(textStatus);
+		        console.log(errorThrown);
+			},
 
-            success: function(dataReceived){
+			success: function(dataReceived){
 
-                    console.log("Data that was received from the server: Aumento");
-                    dropdownItem.childNodes[1].childNodes[2].childNodes[0].innerHTML = Cantidad + 1;
-                    
-            }
+					console.log("Data that was received from the server: Aumento");
+					location.reload();
+			}
 
-        });
-
-}
-
-
-
-function disminuyeCant(IDProducto){
-
-    var email = getCookie("email");
-
-    var dropdownItem = document.getElementById(IDProducto + "dropdown");
-
-    var Cantidad = parseInt(dropdownItem.childNodes[1].childNodes[2].childNodes[0].innerHTML);
-
-
-
-    var jsonToSend = {
-            "IDProducto" : IDProducto,
-            "email" : email,
-            "Cantidad" : Cantidad
-    };
-
-
-    //alert("aumentando cantidad jsoooooooooooon");
-
-    $.ajax({
-
-            url: "/CartActionSubstractCant",
-            cache : false,
-            type : "POST",
-            crossDomain: true,
-            data : jsonToSend,
-            ContentType : "text/plain",
-            dataType : "json",
-
-            error : function(errorMessage, textStatus, errorThrown) {
-                console.log(errorMessage);
-                console.log(textStatus);
-                console.log(errorThrown);
-            },
-
-            success: function(dataReceived){
-
-                    console.log("Data that was received from the server: Aumento");
-                    //location.reload();
-
-                    dropdownItem.childNodes[1].childNodes[2].childNodes[0].innerHTML = Cantidad - 1;
-
-
-                    if (Cantidad - 1 <= 0){
-
-                        dropdownItem.parentNode.removeChild(dropdownItem);
-
-                    }
-
-
-            }
-
-        });
+		});
 
 }
 
+function disminuyeCant(IDProducto,Cantidad){
+	var email = getCookie("email");
 
 
+	var jsonToSend = {
+			"IDProducto" : IDProducto,
+			"email" : email,
+			"Cantidad" : Cantidad
+	};
+
+
+	//alert("aumentando cantidad jsoooooooooooon");
+
+	$.ajax({
+
+			url: "/CartActionSubstractCant",
+			cache : false,
+		    type : "POST",
+		    crossDomain: true,
+			data : jsonToSend,
+			ContentType : "text/plain",
+			dataType : "json",
+
+			error : function(errorMessage, textStatus, errorThrown) {
+		        console.log(errorMessage);
+		        console.log(textStatus);
+		        console.log(errorThrown);
+			},
+
+			success: function(dataReceived){
+
+					console.log("Data that was received from the server: Aumento");
+					location.reload();
+			}
+
+		});
+
+}
