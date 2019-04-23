@@ -159,6 +159,8 @@ function profileUpdate(response, postData, cookieJar) {
       estado +
       "', Direccion = '" +
       direccion +
+      "', Ciudad = '"+
+      ciudad +
       "' WHERE Correo = '" +
       email +
       "';",
@@ -278,6 +280,40 @@ function profileGetRecomendations(response, postData) {
         });
 
         response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(json);
+      }
+    }
+  );
+}
+
+function profileGetData(response, postData){
+  var email = querystring.parse(postData).email;
+
+  console.log(email);
+
+  pool.query(
+    "select usuario.Pais,usuario.Estado,usuario.Ciudad,usuario.Direccion from usuario where usuario.correo = '" +
+    email +
+    "';",
+    function(err,result){
+      if (err) throw err;
+
+      if(result.length = 1){
+        var Data = [];
+        Data.push({
+          Pais: result[0].Pais,
+          Estado: result[0].Estado,
+          Ciudad: result[0].Ciudad,
+          Direccion: result[0].Direccion
+        });
+        console.log(Data);
+
+        var json = JSON.stringify({
+          success: true,
+          reason: "Profile Data information retrieved",
+          Data: Data
+        });
+        response.writeHead(200,{ "Content-Type": "application/json" });
         response.end(json);
       }
     }
@@ -1103,6 +1139,7 @@ exports.cartActionSubstractCant = cartActionSubstractCant;
 exports.cartActionInsert = cartActionInsert;
 exports.shopConfirmationAction = shopConfirmationAction;
 exports.profileUpdate = profileUpdate;
+exports.profileGetData = profileGetData;
 exports.profileGetPruchaseHistory = profileGetPruchaseHistory;
 exports.profileGetRecomendations = profileGetRecomendations;
 //Acciones o servicios que el cliente solicita automaticamente

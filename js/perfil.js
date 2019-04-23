@@ -5,6 +5,7 @@ $(document).ready(function() {
 
   getPurchaseHistory();
   getRecomendations();
+  getData();
 
   $(".slider").slider({ height: 500 });
   $("select").formSelect();
@@ -163,6 +164,51 @@ function getRecomendations() {
           }
         }
       } else alert("No se pudo recibir el historial de compras (NOT >= 1)");
+    }
+  });
+}
+
+
+function getData(){
+  var email = getCookie("email");
+
+  var jsonToSend = {
+    email: email
+  };
+
+   $.ajax({
+    url: "/ProfileGetData",
+    cache: false,
+    type: "POST",
+    crossDomain: true,
+    data: jsonToSend,
+    ContentType: "text/plain",
+    dataType: "json",
+
+    error: function(errorMessage, textStatus, errorThrown) {
+      console.log(errorMessage);
+      console.log(textStatus);
+      console.log(errorThrown);
+    },
+
+    success: function(dataReceived) {
+      if(dataReceived.Data.length = 1){
+        //Una vez recibido los valores, precargarlos al html
+        
+        var pais = dataReceived.Data[0].Pais;
+        var estado = dataReceived.Data[0].Estado;
+        var ciudad = dataReceived.Data[0].Ciudad;
+        var direccion = dataReceived.Data[0].Direccion;
+      
+        $("#pais").val(pais);
+        $("#estado").val(estado);
+        $("#ciudad").val(ciudad);
+        $("#direccion").val(direccion);
+    
+
+
+      }
+      else alert("No se pudo recibir los datos del perfil.");
     }
   });
 }

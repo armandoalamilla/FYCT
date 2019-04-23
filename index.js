@@ -53,8 +53,8 @@ handle["/png"] = requestHandlers.pngContent;
 handle["/jpg"] = requestHandlers.jpgContent;
 handle["/pdf"] = requestHandlers.pdfService;
 handle["/ProfileGetRecomendations"] = requestHandlers.profileGetRecomendations;
-handle["/ProfileGetPurchaseHistory"] =
-  requestHandlers.profileGetPruchaseHistory;
+handle["/ProfileGetPurchaseHistory"] =  requestHandlers.profileGetPruchaseHistory;
+handle["/ProfileGetData"] = requestHandlers.profileGetData;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Se le encomienda al servidor la tarea de arrancar y estar escuchando solicitudes (requests) de usuarios, ya sea que soliciten recursos o acciones
