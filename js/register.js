@@ -123,6 +123,7 @@ function sendInfo(){
 
 };
 
+/*
 //Trigger del DropDown
 $('.dropdown-trigger').dropdown({coverTrigger: false, alignment: 'right', constrainWidth: false, isScrollable: true, closeOnClick: false});
 
@@ -143,3 +144,4 @@ $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
+*/

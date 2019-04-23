@@ -44,52 +44,54 @@
     <h5 class="center-align">Carrito</h5>
 </div>
 <div class="container">
-	<table class="highlight">
-	    <thead>
-	      <tr>
-	      		<th></th>
-	        	<th>Articulo</th>
-	        	<th>Cantidad</th>
+  
+  <table id= "product_container" class="highlight">
+      <thead>
+        <tr>
+            <th></th>
+            <th>Articulo</th>
+            <th>Cantidad</th>
             <th></th> 
-	        	<th>Precio</th>
-	        	<th></th>
+            <th>Precio</th>
+            <th></th>
 
-	      </tr>
-	    </thead>
+        </tr>
+      </thead>
 
         <tbody>
+          <!-- 
           <tr>
-    				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-    				<td>Zapato1</td>
-    				<td>1</td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato1</td>
+            <td>1</td>
             <td>
               <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
               <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
             </td>
-				    <td>$0.87</td>
-				    <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td>$0.87</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
           <tr>
-    				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-    				<td>Zapato2</td>
-    				<td>1</td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato2</td>
+            <td>1</td>
             <td>
               <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
               <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
             </td>
-    				<td>$3.76</td>
-    				<td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td>$3.76</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
           <tr>
-    				<td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
-    				<td>Zapato3</td>
-    				<td>1</td>
+            <td><img src="https://ss237.liverpool.com.mx/xl/1043934841.jpg" height="100" width="200"></td>
+            <td>Zapato3</td>
+            <td>1</td>
             <td>
               <div><a href="#!"><i class="tiny material-icons left">expand_less</i></a></div>
               <div><a href="#!"><i class="tiny material-icons left">expand_more</i></a></div>
             </td>
-    				<td>$7.00</td>
-    				<td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
+            <td>$7.00</td>
+            <td><a class="waves-effect waves-light btn"><i class="material-icons bt">remove_shopping_cart</i></a></td>
           </tr>
          <div class="divider"></div>
          <tr>
@@ -101,12 +103,16 @@
             <h5 class="right-align">Total  $11.63</h5>
          </td>
          </tr>
+         CSS  -->
         </tbody>
-	</table>
+        <tfoot class="subtotal">
+          
+        </tfoot>
+  </table>
 </div>
 <br>
 <div class="row">
-	<div class="col s3 offset-s9"><a class="waves-effect waves-light btn-large " style="margin: 30px 0">Comprar</a></div>
+  <div id = "comprar"  class="col s3 offset-s9"><a href="/ShopConfirmation" class="waves-effect waves-light btn-large " style="margin: 30px 0">Comprar</a></div>
 </div>
 
 <footer class="page-footer teal">

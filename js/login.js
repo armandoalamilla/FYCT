@@ -14,7 +14,7 @@ $(document).ready(function() {
 });
 
 
-
+	
 
 function sendInfo(){
 
@@ -50,11 +50,14 @@ function sendInfo(){
 					console.log("Data that was received from the server: ");
 
 
-					if (dataReceived.names.length >= 1)
-						alert("Usuario identificado: " + dataReceived.names[0].Nombres + " " + dataReceived.names[0].ApellidoP + " " +
-							   dataReceived.names[0].ApellidoM);
+					if (dataReceived.names.length >= 1){
+						/*alert("Usuario identificado: " + dataReceived.names[0].Nombres + " " + dataReceived.names[0].ApellidoP + " " +
+							   dataReceived.names[0].ApellidoM);*/
+						window.location.assign("http://localhost:8080/");
+
+					}
 					else
-						alert("Usuario no identificado");
+						alert("Las credenciales provistas no coinciden. Por favor escribe tus credenciales para iniciar sesion.");
 					   
 			}
 
@@ -65,6 +68,7 @@ function sendInfo(){
 }
 
 
+/*
 //Trigger del DropDown
 $('.dropdown-trigger').dropdown({coverTrigger: false, alignment: 'right', constrainWidth: false, isScrollable: true, closeOnClick: false});
 
@@ -85,3 +89,4 @@ $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
 $("#dropdown_container").append(carrElement);
+*/
