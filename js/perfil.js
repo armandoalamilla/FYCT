@@ -92,6 +92,8 @@ function getPurchaseHistory() {
 
         //Aqui se agregan las imagenes que se recibieron del server al css de perfil
         for (i = 0; i < dataReceived.PurchaseHistory.length; i++) {
+          var fecha = new Date(Date.parse(dataReceived.PurchaseHistory[i].Fecha));
+          var fechaConvert = fecha.toDateString();
           var newElement =
             "<div class='row'>" +
             "<div class='col s2'><img src= " +
@@ -101,7 +103,7 @@ function getPurchaseHistory() {
             dataReceived.PurchaseHistory[i].IDOrden +
             "</div>" +
             "<div class='col s2 center-align '> Fecha de Compra: " +
-            dataReceived.PurchaseHistory[i].Fecha +
+            fechaConvert +
             "</div>" +
             "<div class='col s2 center-align '> Cantidad:" +
             dataReceived.PurchaseHistory[i].Cantidad +
@@ -205,8 +207,6 @@ function getData(){
         $("#ciudad").val(ciudad);
         $("#direccion").val(direccion);
     
-
-
       }
       else alert("No se pudo recibir los datos del perfil.");
     }
