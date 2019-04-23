@@ -11,12 +11,7 @@
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <!-- <a id="logo-container" href="/" class="brand-logo" >  <img src="imagenes/logo.png">   </a>  -->
-    </div>
-  </nav>
-
+  
 
   <div class="container">
     <div class="section">
@@ -30,22 +25,18 @@
       flex-direction: column;
       background-color: #262626;
     }
-
     main {
       flex: 1 0 auto;
     }
-
     /*body {
       background: #262626;
     }*/
-
     .input-field input[type=date]:focus + label,
     .input-field input[type=text]:focus + label,
     .input-field input[type=email]:focus + label,
     .input-field input[type=password]:focus + label {
       color: #e91e63;
     }
-
     .input-field input[type=date]:focus,
     .input-field input[type=text]:focus,
     .input-field input[type=email]:focus,
@@ -64,13 +55,13 @@
       
       <div class="section"></div>
       <img class="circle" src="imagenes/logo.png">
-      <h5 class="red-text"><b>Ingresa cuenta Administrador</b></h5>
+      <h5 class="white-text"><b>Ingresa cuenta Administrador</b></h5>
       <div class="section"></div>
 
       <div class="container">
         <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
 
-          <form class="col s12" method="post">
+          <form action = "/LoginAction" class="col s12" method="post">
             <div class='row'>
               <div class='col s12'>
               </div>
@@ -96,7 +87,7 @@
             <br />
             <center>
               <div class='row'>
-                <button id= 'login' type='button' name='btn_login' class='col s12 btn btn-large waves-effect red'>Ingresar</button>
+                <input id= 'login' type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo' value ="Ingresar">
               </div>
             </center>
           </form>
@@ -119,7 +110,7 @@
 
   
 
-  <footer class="page-footer red">
+  <footer class="page-footer teal">
     
     <div class="footer-copyright">
       <div class="container">
@@ -142,8 +133,7 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-  <script src="js/loginAdmin.js"></script>
-    <script src="js/checkLogin.js"></script>
+    <!--<script src="js/checkLogin.js"></script>-->
 
 
   </body>
