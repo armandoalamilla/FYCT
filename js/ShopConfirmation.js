@@ -1,3 +1,9 @@
+var total;
+var productos="";
+var nombre;
+var apellido;
+var ordenID;
+
 $(document).ready(function() {
 
 	console.log("shopConfirmation SCRIPT WAS LOADED");
@@ -52,7 +58,14 @@ $(document).ready(function() {
 					$("#info").append( "<p> Pais: "+pais+"</p>");
 					$("#info").append( "<p> Telefono de Usuario: "+numero+"</p>");
 
-					for (i = 0; i < dataReceived.CartInformation.length; i++) { 
+					for (i = 0; i < dataReceived.CartInformation.length; i++) {
+
+						productos += (i+1) + ". " + dataReceived.CartInformation[i].Nombre + " ";
+						
+
+						
+
+
 
 						subtotalGeneral = subtotalGeneral + dataReceived.CartInformation[i].Cantidad * dataReceived.CartInformation[i].Precio;
 						var newElement = " <div class='col s6'> " +
@@ -74,6 +87,7 @@ $(document).ready(function() {
 					}
 
 						$("#totalF").append( "$" + subtotalGeneral + ".00 MXN");
+						total = subtotalGeneral;
 
 					
 
@@ -82,13 +96,61 @@ $(document).ready(function() {
 		});
 
 
-
-
-
-
-
-
-
-
 });
+
+paypal.Buttons({
+
+  style: {
+                layout: 'horizontal',
+                shape: 'pill',
+                color: 'black'
+            },
+
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: total
+          },
+
+          description : productos       
+
+         
+        }]
+      });
+    },
+    onApprove: function(data, actions) {     
+      
+
+      // se obtionon los fondos de la cuenta
+      return actions.order.capture().then(function(details) {
+        // mensaje de exito para la compra
+         nombre = details.payer.name.given_name;
+         apellido = details.payer.name.surname;    
+         ordenID = data.orderID;
+        alert("Gracias por tu compra (nombre paypal) " + nombre + " " + apellido);        
+        alert("ID de orden " + ordenID);
+        window.location.replace("/");   
+
+
+             
+       
+             
+      });
+      
+    }
+    
+   /* onCancel: function (data, actions) {
+
+      alert("Compra cancelada, no se te hizo el cargo ");   
+
+
+    }, */
+
+
+
+
+  }).render('#paypal-button-container');
+
+
 
