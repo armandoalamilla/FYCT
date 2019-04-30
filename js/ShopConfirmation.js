@@ -110,10 +110,14 @@ paypal.Buttons({
       return actions.order.create({
         purchase_units: [{
           amount: {
-            value: total
+            value: total,
+
           },
 
-          description : productos       
+          description : productos,
+
+          invoice_id : "reclamaTalega123"
+
 
          
         }]
