@@ -24,6 +24,7 @@ handle["/ProductoDetalles"] = requestHandlers.productDetailsPage;
 handle["/Perfil"] = requestHandlers.profilePage;
 handle["/CerrarSesion"] = requestHandlers.logoutAction;
 handle["/ShopConfirmation"] = requestHandlers.shopConfirmationPage;
+handel["/ConfirmacionFea"] = "http://google.com";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Funciones para realizar acciones o servicios

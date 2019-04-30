@@ -116,13 +116,15 @@ paypal.Buttons({
 
           description : productos,
 
-          invoice_id : "reclamaTalega123"
+          invoice_id : "reclamaTalega12943Aabdewe" //cambiar el id para cada compra
 
 
          
         }]
       });
     },
+
+
     onApprove: function(data, actions) {     
       
 
@@ -142,19 +144,26 @@ paypal.Buttons({
              
       });
       
-    }
+    },
+
+   onError: function (err) {
+    // Show an error page here, when an error occurs
+    alert("no jala, error ID DUPLICADO maybe");
+  },
+
+  onCancel: function (data, actions) {
+    // Show a cancel page, or return to cart
+    alert("compra cancelada");
+  }
+
+  
     
-   /* onCancel: function (data, actions) {
-
-      alert("Compra cancelada, no se te hizo el cargo ");   
-
-
-    }, */
 
 
 
 
   }).render('#paypal-button-container');
+
 
 
 
