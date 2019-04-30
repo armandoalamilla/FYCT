@@ -149,13 +149,9 @@ paypal.Buttons({
    onError: function (err) {
     // Show an error page here, when an error occurs
     alert("no jala, error ID DUPLICADO maybe");
-  },
-
-  onCancel: function (data, actions) {
-    // Show a cancel page, or return to cart
-    alert("compra cancelada");
   }
 
+  
   
     
 
