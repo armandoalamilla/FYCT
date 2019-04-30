@@ -132,8 +132,8 @@ paypal.Buttons({
          nombre = details.payer.name.given_name;
          apellido = details.payer.name.surname;    
          ordenID = data.orderID;
-        alert("Gracias por tu compra (nombre paypal) " + nombre + " " + apellido);        
-        alert("ID de orden " + ordenID);
+        alert("Gracias por tu compra (nombre paypal) " + nombre + " " + apellido);     
+       
         window.location.replace("/");   
 
 
