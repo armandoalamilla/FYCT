@@ -6,7 +6,7 @@ var fs = require("fs"); //modulo para accesar, crear, modificar, borrar archivos
 var mysql = require("mysql"); //modulo para establecer una conexion con la base de datos de un servidor MySQL
 var querystring = require("querystring"); //modulo para parsear en un objeto con sus atributos (ej. nombredelobjeto.atributo) a la informacion enviada por el usuario via metodo POST
 var async = require("async"); //modulo para utilizar funciones asincronas (ej. each,foreach, y otros loops de manera asincrona)
-const fetch = require("node-fetch");
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Acceso al servidor MySQL para usar la base de datos que esta aplicacion web necesita
 //Nota: cualquier servidor MySQL sirve, solo hay que ejecutar el script 'newCreation' (que se encuentra en este proyecto) en la base de datos
@@ -159,6 +159,8 @@ function profileUpdate(response, postData, cookieJar) {
       estado +
       "', Direccion = '" +
       direccion +
+      "', Ciudad = '"+
+      ciudad +
       "' WHERE Correo = '" +
       email +
       "';",
@@ -278,6 +280,40 @@ function profileGetRecomendations(response, postData) {
         });
 
         response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(json);
+      }
+    }
+  );
+}
+
+function profileGetData(response, postData){
+  var email = querystring.parse(postData).email;
+
+  console.log(email);
+
+  pool.query(
+    "select usuario.Pais,usuario.Estado,usuario.Ciudad,usuario.Direccion from usuario where usuario.correo = '" +
+    email +
+    "';",
+    function(err,result){
+      if (err) throw err;
+
+      if(result.length = 1){
+        var Data = [];
+        Data.push({
+          Pais: result[0].Pais,
+          Estado: result[0].Estado,
+          Ciudad: result[0].Ciudad,
+          Direccion: result[0].Direccion
+        });
+        console.log(Data);
+
+        var json = JSON.stringify({
+          success: true,
+          reason: "Profile Data information retrieved",
+          Data: Data
+        });
+        response.writeHead(200,{ "Content-Type": "application/json" });
         response.end(json);
       }
     }
@@ -820,48 +856,48 @@ function registerAction(response, postData, pathname) {
 function retrieveImagesInfo(response, postData, pathname) {
   console.log("Request handler 'retrieveImagesInfo' was called.");
 
-  pool.query("SELECT * FROM producto;", function(err, result) {
-    if (err) throw err;
+  pool.query(
+    "SELECT * FROM producto, productoimagen WHERE producto.IDProducto = productoimagen.IDProducto AND ImgPrincipal = true AND Ubicacion IS NOT NULL;",
+    function(err, result) {
+      if (err) throw err;
 
-    if (result.length >= 1) {
-      var imageInfoArray = [];
-      for (var i = 0; i < result.length; i++) {
-        imageInfoArray.push({
-          IDProducto: result[i].IDProducto,
-          Nombre: result[i].Nombre,
-          Precio: result[i].Precio,
-          Descripcion: result[i].Descripcion
+      if (result.length >= 1) {
+        var imageInfoArray = [];
+        for (var i = 0; i < result.length; i++) {
+          imageInfoArray.push({
+            IDProducto: result[i].IDProducto,
+            Nombre: result[i].Nombre,
+            Precio: result[i].Precio,
+            Descripcion: result[i].Descripcion,
+            Ubicacion: result[i].Ubicacion
+          });
+        }
+
+        var json = JSON.stringify({
+          success: true,
+          reason: "Images information retrieved.",
+          ImagesInformation: imageInfoArray
         });
+
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(json);
+      } else {
+        var imageInfoArray = [];
+        var json = JSON.stringify({
+          success: false,
+          reason: "Nothing retrieved.",
+          ImagesInformation: imageInfoArray
+        });
+
+        response.writeHead(200, { "Content-Type": "application/json" });
+        response.end(json);
       }
-
-      var json = JSON.stringify({
-        success: true,
-        reason: "Images information retrieved.",
-        ImagesInformation: imageInfoArray
-      });
-
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(json);
-    } else {
-      var imageInfoArray = [];
-      var json = JSON.stringify({
-        success: false,
-        reason: "Nothing retrieved.",
-        ImagesInformation: imageInfoArray
-      });
-
-      response.writeHead(200, { "Content-Type": "application/json" });
-      response.end(json);
     }
-  });
+  );
 }
 
 function mostSoldProducts(response, postData, pathname) {
   console.log("Request handler 'mostSoldProducts' was called.");
-
-  fetch("localhost:3000/imagenes/foto.jpg")
-    .then(res => res.text())
-    .then(body => console.log("-----------------ZzzZZZZZZ " + body));
 
   pool.query(
     "select producto.IDProducto, producto.Nombre, producto.Precio, sum(ordendetalle.cantidad) as Ventas, producto.Descripcion, productoimagen.Ubicacion from ordendetalle, producto, productoimagen where ordendetalle.IDProducto = producto.IDProducto AND productoimagen.IDProducto = producto.IDProducto AND productoimagen.ImgPrincipal = true group by ordendetalle.IDProducto order by ventas desc limit 3;",
@@ -1103,6 +1139,7 @@ exports.cartActionSubstractCant = cartActionSubstractCant;
 exports.cartActionInsert = cartActionInsert;
 exports.shopConfirmationAction = shopConfirmationAction;
 exports.profileUpdate = profileUpdate;
+exports.profileGetData = profileGetData;
 exports.profileGetPruchaseHistory = profileGetPruchaseHistory;
 exports.profileGetRecomendations = profileGetRecomendations;
 //Acciones o servicios que el cliente solicita automaticamente

@@ -5,6 +5,7 @@ $(document).ready(function() {
 
   getPurchaseHistory();
   getRecomendations();
+  getData();
 
   $(".slider").slider({ height: 500 });
   $("select").formSelect();
@@ -91,7 +92,8 @@ function getPurchaseHistory() {
 
         //Aqui se agregan las imagenes que se recibieron del server al css de perfil
         for (i = 0; i < dataReceived.PurchaseHistory.length; i++) {
-          var algo = new Date(Date.parse(dataReceived.PurchaseHistory[i].Fecha));
+          var fecha = new Date(Date.parse(dataReceived.PurchaseHistory[i].Fecha));
+          var fechaConvert = fecha.toDateString();
           var newElement =
             "<div class='row'>" +
             "<div class='col s2'><img src= " +
@@ -101,7 +103,7 @@ function getPurchaseHistory() {
             dataReceived.PurchaseHistory[i].IDOrden +
             "</div>" +
             "<div class='col s2 center-align '> Fecha de Compra: " +
-             algo +
+            fechaConvert +
             "</div>" +
             "<div class='col s2 center-align '> Cantidad:" +
             dataReceived.PurchaseHistory[i].Cantidad +
@@ -164,6 +166,49 @@ function getRecomendations() {
           }
         }
       } else alert("No se pudo recibir el historial de compras (NOT >= 1)");
+    }
+  });
+}
+
+
+function getData(){
+  var email = getCookie("email");
+
+  var jsonToSend = {
+    email: email
+  };
+
+   $.ajax({
+    url: "/ProfileGetData",
+    cache: false,
+    type: "POST",
+    crossDomain: true,
+    data: jsonToSend,
+    ContentType: "text/plain",
+    dataType: "json",
+
+    error: function(errorMessage, textStatus, errorThrown) {
+      console.log(errorMessage);
+      console.log(textStatus);
+      console.log(errorThrown);
+    },
+
+    success: function(dataReceived) {
+      if(dataReceived.Data.length = 1){
+        //Una vez recibido los valores, precargarlos al html
+        
+        var pais = dataReceived.Data[0].Pais;
+        var estado = dataReceived.Data[0].Estado;
+        var ciudad = dataReceived.Data[0].Ciudad;
+        var direccion = dataReceived.Data[0].Direccion;
+      
+        $("#pais").val(pais);
+        $("#estado").val(estado);
+        $("#ciudad").val(ciudad);
+        $("#direccion").val(direccion);
+    
+      }
+      else alert("No se pudo recibir los datos del perfil.");
     }
   });
 }
