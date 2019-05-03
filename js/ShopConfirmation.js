@@ -1,8 +1,9 @@
 var total;
 var productos="";
-var nombre;
-var apellido;
-var ordenID;
+//valores para ID dinamico
+var apellidoM;
+var apellidoP;
+
 
 $(document).ready(function() {
 
@@ -51,6 +52,9 @@ $(document).ready(function() {
 					var pais = dataReceived.CartInformation[0].Pais;
 					var numero = dataReceived.CartInformation[0].Numero;
 					var calle = dataReceived.CartInformation[0].Calle;
+					apellidoP = dataReceived.CartInformation[0].ApellidoP;
+					apellidoM = dataReceived.CartInformation[0].ApellidoM;
+
 
 					$("#info").append( "<p> Calle: "+calle+"</p>");
 					$("#info").append( "<p> Colonia: "+colonia+"</p>");
@@ -107,6 +111,16 @@ paypal.Buttons({
             },
 
     createOrder: function(data, actions) {
+
+    	//dinamicID inicializacion
+    	var dinamicIDDate = new Date();
+		var dinamicIDNum = diman.getTime().toString();
+    	var dinamicAppM = apellidoM.charAt(0);
+    	var dinamicAppP = apellidoP.charAt(0);
+
+    	//dinamicID asignacion
+    	var dinamicID = dinamicIDNum + dinamicAppP + dinamicAppM;
+
       return actions.order.create({
         purchase_units: [{
           amount: {
@@ -116,7 +130,7 @@ paypal.Buttons({
 
           description : productos,
 
-          invoice_id : "reclamaTalega12943Aabdewe" //cambiar el id para cada compra
+          invoice_id : dinamicID //Id de transaccion de cada compra
 
 
          
@@ -126,15 +140,18 @@ paypal.Buttons({
 
 
     onApprove: function(data, actions) {     
-      
-
+      	var nombreCliente;
+		var apellidoCliente;
+    	var ordenID;
       // se obtionon los fondos de la cuenta
       return actions.order.capture().then(function(details) {
         // mensaje de exito para la compra
-         nombre = details.payer.name.given_name;
-         apellido = details.payer.name.surname;    
+        //detalles comprador
+         nombreCliente = details.payer.name.given_name;
+         apellidoCliente = details.payer.name.surname;
+         //Id generado de la orden 
          ordenID = data.orderID;
-        alert("Gracias por tu compra (nombre paypal) " + nombre + " " + apellido);     
+        alert("Gracias por tu compra (nombre paypal) " + nombreCliente + " " + apellidoCliente);     
        
         window.location.replace("/");   
 

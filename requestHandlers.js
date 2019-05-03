@@ -758,7 +758,9 @@ function shopConfirmationAction(response, postData, cookieJar) {
             Colonia: result[i].Colonia,
             Calle: result[i].Calle,
             Numero: result[i].Numero,
-            Telefono: result[i].Telefono
+            Telefono: result[i].Telefono,
+            ApellidoM: result[i].ApellidoM,
+            ApellidoP: result[i].ApellidoP
           });
         }
 
